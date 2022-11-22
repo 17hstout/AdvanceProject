@@ -19,40 +19,53 @@ class MyApp extends StatelessWidget {
     return Provider<Inventories>(
       create: (context) => Inventories(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Advance: An Earth-Shattering Adventure',
         theme: ThemeData(
           primarySwatch: Colors.teal,
           scaffoldBackgroundColor: Colors.black,
         ),
-        home: const MyHomePage(),
+        home: const AppPage(),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const AppPage(),
+          '/home': (context) => const AppPage(),
+          '/play': (context) => const AppPage(),
+          '/main': (context) => const AppPage(),
+          '/menu': (context) => const SettingsMenuPage(),
+          '/settings': (context) => const SettingsMenuPage(),
+        },
       ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class AppPage extends StatefulWidget {
+  const AppPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<AppPage> createState() => _AppPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _AppPageState extends State<AppPage> {
   int bottomNavLocation = 1;
   List<Widget> pageFromNavId = [
     const MachineCreate(), //build
     const MachineList(), //machines
     const Explore(), //explore
-    const SettingsMenu(), //settings
   ];
 
   @override
   Widget build(BuildContext context) {
-    // Start fresh on each load (for now)
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Advance'),
+          title: const Text('Your Currency: ???'),
+          actions: [
+            IconButton(
+              icon: Settings.menuIcon,
+              onPressed: () => Navigator.pushNamed(context, 'settings'),
+            ),
+          ],
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -85,15 +98,29 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: Settings.exploreIcon,
               label: "Explore",
             ),
-            BottomNavigationBarItem(
-              icon: Settings.menuIcon,
-              label: "Menu",
-            ),
           ],
         ),
         body: Center(
           child: pageFromNavId[bottomNavLocation],
         ),
+      ),
+    );
+  }
+}
+
+class SettingsMenuPage extends StatelessWidget {
+  const SettingsMenuPage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Advance'),
+        ),
+        body: const Center(child: SettingsMenu()),
       ),
     );
   }

@@ -16,33 +16,23 @@ class _SettingsMenuState extends State<SettingsMenu> {
   Widget build(BuildContext context) {
     return Container(
       color: myColor,
-      child: Column(
-        children: [
-          TextButton.icon(
-            onPressed: () {
-              int success =
-                  Provider.of<Inventories>(context, listen: false).newGame();
-              setState(() {
-                if (success != 0) {
-                  myColor = Colors.red;
-                } else {
-                  myColor = Colors.green;
-                }
-              });
-            },
-            icon: const Icon(Icons.undo, color: Colors.white),
-            label: const Text(
-              "Restart Game",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              print("Settings");
-            },
-          ),
-        ],
+      child: TextButton.icon(
+        onPressed: () {
+          int successCode =
+              Provider.of<Inventories>(context, listen: false).newGame();
+          setState(() {
+            if (successCode == 0) {
+              myColor = Colors.green;
+            } else {
+              myColor = Colors.red;
+            }
+          });
+        },
+        icon: const Icon(Icons.refresh, color: Colors.white),
+        label: const Text(
+          "Restart Game",
+          style: TextStyle(color: Colors.white),
+        ),
       ),
     );
   }
