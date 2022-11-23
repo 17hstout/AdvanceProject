@@ -1,4 +1,3 @@
-import 'package:advance/settings.dart';
 import 'package:flutter/material.dart';
 
 class TopBar extends StatelessWidget {

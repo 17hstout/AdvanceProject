@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 class MachineHelper {
   static Map<String, Map<String, dynamic>> machines = {
     "Slow Miner": {
@@ -212,26 +214,37 @@ class Inventories {
     return 0; // success
   }
 
-  int saveGame() {
+  Future<int> saveGame() async {
+    final prefs = await SharedPreferences.getInstance();
     try {
-      for (MachineInventory floorInv in inv) {
-        MachineHelper.stringifyWholeInventory(floorInv); // Save this string
+      // Saving floors
+      for (int floor = 0; floor < inv.length; floor++) {
+        String floorData = MachineHelper.stringifyWholeInventory(inv[floor]);
+        if (!await prefs.setString('floor_$floor', floorData)) {
+          print("floor $floor: $floorData");
+          return 1; // failed to save a floor
+        }
       }
       String progress = "floors:${inv.length};";
       for (String currency in myCurrency.keys) {
         progress += "$currency:${myCurrency[currency]};";
       }
+      // Saving progress
       progress = progress.substring(0, progress.length - 1);
-      // Save "progress"
-      return 1; // failure, not implemented
+      if (!await prefs.setString('adv_progress', progress)) {
+        print("failed to save this progress: $progress");
+        return 1; // failed to save progress
+      }
+      return 0; // success
     } catch (e) {
       return 1;
     }
   }
 
-  int loadGame() {
+  Future<int> loadGame() async {
     try {
-      List<String> pieces = "floors:0;dollars:10".split(";"); // Load this
+      final prefs = await SharedPreferences.getInstance();
+      List<String> pieces = (prefs.getString('adv_progress') ?? "").split(";");
       // Load currency
       myCurrency = {};
       for (String piece in pieces.sublist(1)) {
@@ -241,11 +254,14 @@ class Inventories {
       inv = [];
       int floors = int.parse(pieces[0].split(":")[1]);
       for (int floor = 0; floor < floors; floor++) {
-        print("Load floor:$floor");
-        var floorInv = ""; // Load this
-        inv.add(MachineHelper.loadWholeInventory(floorInv));
+        print("Loading floor_$floor");
+        var floorInv = prefs.getString('floor_$floor');
+        if (floorInv != null) {
+          inv.add(MachineHelper.loadWholeInventory(floorInv));
+          print(floorInv);
+        }
       }
-      return 1; // failure, not implemented
+      return 0; // success
     } catch (e) {
       return 1;
     }

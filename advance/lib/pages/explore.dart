@@ -1,4 +1,4 @@
-import 'package:advance/helpers/machines.dart';
+import 'package:advance/settings.dart';
 import 'package:flutter/material.dart';
 
 class Explore extends StatelessWidget {
@@ -9,9 +9,9 @@ class Explore extends StatelessWidget {
     return Container(
       color: Colors.yellow,
       child: IconButton(
-        icon: const Icon(Icons.coffee),
+        icon: Settings.exploreIcon,
         onPressed: () {
-          print("woooo");
+          print("woooo adventure");
         },
       ),
     );
