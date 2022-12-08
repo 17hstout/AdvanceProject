@@ -38,10 +38,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
           style: ButtonStyle(
               backgroundColor: MaterialStatePropertyAll<Color>(saveStatus)),
           icon: const Icon(Icons.save_alt, color: Colors.white),
-          label: const Text(
-            "Save Game",
-            style: TextStyle(color: Colors.white, fontSize: 32),
-          ),
+          label: const BtnLabel(text: "Save Game"),
         ),
         // Spacer for safety
         const SizedBox(height: 32),
@@ -65,10 +62,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
           style: ButtonStyle(
               backgroundColor: MaterialStatePropertyAll<Color>(loadStatus)),
           icon: const Icon(Icons.upload, color: Colors.white),
-          label: const Text(
-            "Load Game",
-            style: TextStyle(color: Colors.white, fontSize: 32),
-          ),
+          label: const BtnLabel(text: "Load Game"),
         ),
         // Spacer for safety
         const SizedBox(height: 32),
@@ -91,10 +85,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
           style: ButtonStyle(
               backgroundColor: MaterialStatePropertyAll<Color>(resetStatus)),
           icon: const Icon(Icons.refresh, color: Colors.white),
-          label: const Text(
-            "Restart Game",
-            style: TextStyle(color: Colors.white, fontSize: 32),
-          ),
+          label: const BtnLabel(text: "Restart Game"),
         ),
         // Spacer for safety
         const SizedBox(height: 32),
@@ -108,12 +99,25 @@ class _SettingsMenuState extends State<SettingsMenu> {
             backgroundColor: MaterialStatePropertyAll<Color>(Colors.purple),
           ),
           icon: const Icon(Icons.arrow_back, color: Colors.white),
-          label: const Text(
-            "Close Settings Menu",
-            style: TextStyle(color: Colors.white, fontSize: 32),
-          ),
+          label: const BtnLabel(text: "Close Menu"),
         ),
       ],
+    );
+  }
+}
+
+class BtnLabel extends StatelessWidget {
+  const BtnLabel({Key? key, required this.text}) : super(key: key);
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        text,
+        style: const TextStyle(color: Colors.white, fontSize: 32),
+      ),
     );
   }
 }
